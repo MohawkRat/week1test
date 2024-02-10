@@ -59,8 +59,6 @@
             
                             <button class="button1">Signup</button>
                         </form>
-                        <p></p>
-                        <a href="135Games-LoginPage.php" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">135.Games Log in Page !</a>
                     </div>
     
                     <div class="col">
@@ -122,7 +120,7 @@
                                 else
                                 {
                                     $sql->registerUser($_POST ['Username'], $_POST['email'], $_POST ['password']);
-                                    header('Location: login.php');
+                                    header('Location: index.php');
                                 }
                             }
                         }

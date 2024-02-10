@@ -1,5 +1,7 @@
 <?php
 
+require_once("utils.php");
+
 class sql {
 
     private PDO $conn;
@@ -41,11 +43,33 @@ class sql {
 
     public function registerUser($username, $email, $password) {
         $passHash = password_hash($password, PASSWORD_BCRYPT);
+        $sessionId = utils::generateSessionId();
+        setcookie("sessionid", $sessionId);
         try {
-            $stmt = $this->conn->prepare("INSERT INTO CareProUsers(Username, Email, Password_Hash, Staff, Session_ID) VALUES (:username, :email, :password_hash, 0, 0)");
-            $stmt->execute(array('username'=> $username, 'email'=> $email, 'password_hash'=> $passHash));
+            $stmt = $this->conn->prepare("INSERT INTO CareProUsers(Username, Email, Password_Hash, Staff, Session_ID) VALUES (:username, :email, :password_hash, 0, :sessionid)");
+            $stmt->execute(array('username'=> $username, 'email'=> $email, 'password_hash'=> $passHash, 'sessionid' => $sessionId));
         } catch (PDOException $e) {
             die($e->getMessage());
+        }
+    }
+
+    public function login($email, $password) {
+        if ($this->checkEmail($email) == "email exists") {
+            try {
+                $stmt = $this->conn->prepare("SELECT User_ID, Email, Password_Hash FROM CareProUsers WHERE Email = :email");
+                $stmt->execute(array('email' => $email));
+                $user = $stmt->fetch();
+                if (password_verify($password, $user['Password_Hash'])) {
+                    $sessionId = utils::generateSessionId();
+                    $stmt = $this->conn->prepare("UPDATE CareProUsers SET Session_ID = :session WHERE User_ID = :userid");
+                    $stmt->execute(array('session'=> $sessionId, 'userid'=> $user['User_ID']));
+                    setcookie("sessionid", $sessionId);
+                    return true;
+                }
+                return false;
+            } catch (PDOException $e) {
+                die($e->getMessage());
+            }
         }
     }
 

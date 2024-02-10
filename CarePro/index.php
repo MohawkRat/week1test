@@ -1,10 +1,15 @@
+<html>
+    <head>
+        <title>CarePro</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+    </body>
+</html>
+
 <?php
 
     echo "Welcome Care Pro !!! ";
 
-    
-
-    $json = file_get_contents('info.json');
-    $jsonData = json_decode($json);
 
 ?>
