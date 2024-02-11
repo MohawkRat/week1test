@@ -44,10 +44,10 @@ class sql {
     public function registerUser($username, $email, $password) {
         $passHash = password_hash($password, PASSWORD_BCRYPT);
         $sessionId = utils::generateSessionId();
-        setcookie("sessionid", $sessionId);
         try {
             $stmt = $this->conn->prepare("INSERT INTO CareProUsers(Username, Email, Password_Hash, Staff, Session_ID) VALUES (:username, :email, :password_hash, 0, :sessionid)");
-            $stmt->execute(array('username'=> $username, 'email'=> $email, 'password_hash'=> $passHash, 'sessionid' => $sessionId));
+            $stmt->execute(array('username'=> $username, 'email'=> $email, 'password_hash'=> $passHash, 'sessionid' => $sessionId));  
+            setcookie("sessionid", $sessionId);
         } catch (PDOException $e) {
             die($e->getMessage());
         }
@@ -70,6 +70,20 @@ class sql {
             } catch (PDOException $e) {
                 die($e->getMessage());
             }
+        }
+    }
+
+    public function getCookie($sessionId) {
+        try {
+            $stmt = $this->conn->prepare("SELECT Session_ID FROM CareProUsers WHERE Session_ID = :sessionid;");
+            $stmt->execute(array('sessionid'=> $sessionId));
+            $result = $stmt->fetch();
+            if ($result) {
+                return true;
+            }
+            return false;
+        } catch (PDOException $e) {
+            die($e->getMessage());
         }
     }
 

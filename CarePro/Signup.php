@@ -56,8 +56,14 @@
                                 <p></p>
                                 <p></p>
                             </div>
-            
-                            <button class="button1">Signup</button>
+                            <div>
+                                <p></p>
+                                <input type="checkbox" id="Termsandconditions" name="Termsandconditions" value="1">
+                                <label for="Termsandconditions"> Agree to the <a href="Termsandconditions.php">terms and conditions</a></label><br>
+                                <p></p> 
+                                <button class="button1">Signup</button>
+                            </div>
+
                         </form>
                     </div>
     
@@ -117,10 +123,16 @@
                                 {
                                     echo ("Your password is was typed incorrectly.</font color>");
                                 }
-                                else
+                                elseif (isset($_POST['Termsandconditions'])) 
                                 {
                                     $sql->registerUser($_POST ['Username'], $_POST['email'], $_POST ['password']);
                                     header('Location: index.php');
+                                }
+                                else
+                                {
+                                    // Checkbox is not checked
+                                    // Perform actions or logic for unchecked checkbox
+                                    echo ('Please check the terms and conditions');
                                 }
                             }
                         }
