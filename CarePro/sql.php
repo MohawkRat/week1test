@@ -63,7 +63,8 @@ class sql {
                     $sessionId = utils::generateSessionId();
                     $stmt = $this->conn->prepare("UPDATE CareProUsers SET Session_ID = :session WHERE User_ID = :userid");
                     $stmt->execute(array('session'=> $sessionId, 'userid'=> $user['User_ID']));
-                    setcookie("sessionid", $sessionId);
+                    
+                    setcookie("sessionid", $sessionId, time() + 2600, '/');
                     return true;
                 }
                 return false;
@@ -75,11 +76,11 @@ class sql {
 
     public function getCookie($sessionId) {
         try {
-            $stmt = $this->conn->prepare("SELECT Session_ID FROM CareProUsers WHERE Session_ID = :sessionid;");
+            $stmt = $this->conn->prepare("SELECT Username, Staff, Session_ID FROM CareProUsers WHERE Session_ID = :sessionid;");
             $stmt->execute(array('sessionid'=> $sessionId));
             $result = $stmt->fetch();
             if ($result) {
-                return true;
+                return $result;
             }
             return false;
         } catch (PDOException $e) {

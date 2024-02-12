@@ -81,10 +81,6 @@ body {
     margin-right: 4px;
   }
 }
-
-
-
-
 </style>
 
 
@@ -95,12 +91,13 @@ body {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
 </head>
 
 <body>
-    <script id="replace_with_navbar" src="nav.js"></script>
 
     <?php
+      include_once('navbar.php');
       if (isset($_COOKIE['sessionid'])) {
         if ($sql->getCookie($_COOKIE['sessionid'])) {
           ?>
@@ -113,28 +110,53 @@ body {
 
       <label class="dropdown-option">
       <input type="checkbox" name="dropdown-group" value="Selection 1" />
-          Alzheimer's
+        Alzheimer’s
       </label>
 
       <label class="dropdown-option">
       <input type="checkbox" name="dropdown-group" value="Selection 2" />
-          Selection Two
+        Arthritis
       </label>
 
       <label class="dropdown-option">
       <input type="checkbox" name="dropdown-group" value="Selection 3" />
-          Selection Three
+        Asperger
       </label>
 
       <label class="dropdown-option">
       <input type="checkbox" name="dropdown-group" value="Selection 4" />
-          Selection Four
+        Blind
       </label>
 
       <label class="dropdown-option">
       <input type="checkbox" name="dropdown-group" value="Selection 5" />
-          Selection Five
-      </label>      
+        Cancer 
+      </label>   
+      
+      <label class="dropdown-option">
+      <input type="checkbox" name="dropdown-group" value="Selection 6" />
+        Cerebral palsy 
+      </label>  
+
+      <label class="dropdown-option">
+      <input type="checkbox" name="dropdown-group" value="Selection 7" />
+        Deaf
+      </label>  
+
+      <label class="dropdown-option">
+      <input type="checkbox" name="dropdown-group" value="Selection 8" />
+        Diabetes type 1 / type 2 
+      </label>  
+
+      <label class="dropdown-option">
+      <input type="checkbox" name="dropdown-group" value="Selection 9" />
+        Down syndrome 
+      </label>  
+
+      <label class="dropdown-option">
+      <input type="checkbox" name="dropdown-group" value="Selection 10" />
+        Epilepsy 
+      </label>    
   </div>
 
   <script>

@@ -6,7 +6,7 @@
     <title>CarePro</title>
 </head>
 <body>
-    <script id="replace_with_navbar" src="nav.js"></script>
+    <?php include_once('navbar.php');?>
     <p><b><u>Our History</u></b></p>
     <p>info about when we were founded and how we were built etc</p>
     <p><b><u>What do we do?</u></b></p>
