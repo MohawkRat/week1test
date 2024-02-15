@@ -25,8 +25,9 @@
                     <p class="nav-link" aria-current="page" href="">
                         <?php
                         
-                        $user = $sql->getCookie($_COOKIE['sessionid']);
+                        
                          if (isset($_COOKIE['sessionid'])) {
+                            $user = $sql->getCookie($_COOKIE['sessionid']);
                             if ($user['Staff']) {
                                 echo '<p class="navbar-text">Staff: ' . $user['Username'] . '</p>';
                             } else {

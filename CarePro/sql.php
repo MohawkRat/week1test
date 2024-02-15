@@ -44,10 +44,10 @@ class sql {
     public function registerUser($username, $email, $password) {
         $passHash = password_hash($password, PASSWORD_BCRYPT);
         $sessionId = utils::generateSessionId();
+        setcookie("sessionid", $sessionId, time() + 2600, '/');
         try {
             $stmt = $this->conn->prepare("INSERT INTO CareProUsers(Username, Email, Password_Hash, Staff, Session_ID) VALUES (:username, :email, :password_hash, 0, :sessionid)");
             $stmt->execute(array('username'=> $username, 'email'=> $email, 'password_hash'=> $passHash, 'sessionid' => $sessionId));  
-            setcookie("sessionid", $sessionId);
         } catch (PDOException $e) {
             die($e->getMessage());
         }

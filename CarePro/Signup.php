@@ -1,6 +1,69 @@
 <?php
     include_once ('sql.php');
     $sql = new sql();
+
+        if (isset($_POST['Username'])) {
+            if (empty($_POST['Username']))
+            {
+                $response = "Please enter a Username.";
+            }
+            elseif (strlen($_POST["Username"]) < 2)
+            {
+                $response = "Please enter a Username more that 2 characters.";
+            }
+
+            else
+            {
+                if (isset($_POST['email'])) {
+                    if ($sql->checkEmail($_POST['email']) == "email exists") {
+                        $response = "email exists please use a different email";
+                    }
+                    else
+                    {
+                        if (! filter_var($_POST["email"], FILTER_VALIDATE_EMAIL))
+                        {
+                            $response = "Please enter a real email.";     
+                        }
+
+                        else 
+                        {
+                            if (strlen($_POST["password"]) <= 8)
+                            {
+                                $response = "Your password is less than 8 characters.";
+
+                            }
+                            elseif (! preg_match("/[a-z]/i", $_POST["password"]))
+                            {
+                                $response = "Your password needs at least one character.";
+                            }
+                            elseif (! preg_match("/[0-9]/i", $_POST["password"]))
+                            {
+                                $response = "Your password needs at least one number.";
+                            }
+
+                            else
+                            {
+                                if ($_POST["password"] !== $_POST["retype_password"])
+                                {
+                                    $response = "Your password is was typed incorrectly.</font color>";
+                                }
+                                elseif (isset($_POST['Termsandconditions'])) 
+                                {
+                                    $sql->registerUser($_POST ['Username'], $_POST['email'], $_POST ['password']);
+                                    header('Location: index.php');
+                                }
+                                else
+                                {
+                                    // Checkbox is not checked
+                                    // Perform actions or logic for unchecked checkbox
+                                    $response = "Please check the terms and conditions";
+                                }
+                            }
+                        }
+                    }
+                }   
+            }
+        } 
 ?>
 
 <!DOCTYPE html>
@@ -65,6 +128,7 @@
                             </div>
 
                         </form>
+                        <p name="login"><?php if (isset($response)) {echo $response;} ?></p>
                     </div>
     
                     <div class="col">
@@ -76,68 +140,4 @@
         </body>
     </html>
 
-    <?php
-
-        if (isset($_POST['Username'])) {
-            if (empty($_POST['Username']))
-            {
-                echo ("Please enter a Username.");
-            }
-            elseif (strlen($_POST["Username"]) < 2)
-            {
-                echo ("Please enter a Username more that 2 characters.");
-            }
-
-            else
-            {
-                if (isset($_POST['email'])) {
-                    if ($sql->checkEmail($_POST['email']) == "email exists") {
-                        echo "email exists please use a different email";
-                    }
-                    else
-                    {
-                        if (! filter_var($_POST["email"], FILTER_VALIDATE_EMAIL))
-                        {
-                            echo ("Please enter a real email.");     
-                        }
-
-                        else 
-                        {
-                            if (strlen($_POST["password"]) <= 8)
-                            {
-                                echo ("Your password is less than 8 characters.");
-
-                            }
-                            elseif (! preg_match("/[a-z]/i", $_POST["password"]))
-                            {
-                                echo ("Your password needs at least one character.");
-                            }
-                            elseif (! preg_match("/[0-9]/i", $_POST["password"]))
-                            {
-                                echo ("Your password needs at least one number.");
-                            }
-
-                            else
-                            {
-                                if ($_POST["password"] !== $_POST["retype_password"])
-                                {
-                                    echo ("Your password is was typed incorrectly.</font color>");
-                                }
-                                elseif (isset($_POST['Termsandconditions'])) 
-                                {
-                                    $sql->registerUser($_POST ['Username'], $_POST['email'], $_POST ['password']);
-                                    header('Location: index.php');
-                                }
-                                else
-                                {
-                                    // Checkbox is not checked
-                                    // Perform actions or logic for unchecked checkbox
-                                    echo ('Please check the terms and conditions');
-                                }
-                            }
-                        }
-                    }
-                }   
-            }
-        } 
-    ?>
+    

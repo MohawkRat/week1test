@@ -7,5 +7,6 @@
 </head>
 <body>
     <?php include_once('navbar.php')?>
+    Hello, Were located in lichfield.
 </body>
 </html>

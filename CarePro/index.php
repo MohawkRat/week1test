@@ -99,7 +99,9 @@ body {
     <?php
       include_once('navbar.php');
       if (isset($_COOKIE['sessionid'])) {
-        if ($sql->getCookie($_COOKIE['sessionid'])) {
+        $user = $sql->getCookie($_COOKIE['sessionid']);
+        if ($user) {
+          if (!$user['Staff']) {
           ?>
           <h1>Illnesses</h1>
 
@@ -255,9 +257,12 @@ body {
 
   </script>
       <?php
+        } else {
+          echo 'hello staff';
         }
+      }
       } else {
-        echo "If you have an account please <a href='login.php'>login</a>";
+        echo "<p>If you have an account please <a href='login.php'>login</a></p>";
       }
 
     ?>

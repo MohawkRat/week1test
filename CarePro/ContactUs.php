@@ -7,5 +7,6 @@
 </head>
 <body>
     <?php include_once('navbar.php')?>
+    If you have any problems please contact our help line !
 </body>
 </html>
