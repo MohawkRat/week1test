@@ -4,6 +4,45 @@
 ?>
 
 <style>
+
+th, td {
+  padding: 35px;
+}
+
+table.center {
+    border-width: 15px;
+    border-spacing: 5px;
+    border-style: outset;
+    border-color: #000000;
+    border-collapse: separate;
+}
+
+table.center td {
+    border-width: 2px;
+    padding: 5px;
+    border-style: inset;
+    border-color: #000000;
+    background-color: #ffff;
+}
+
+table.center th {
+    background-color: grey;
+}
+
+
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+header {
+	background-color: #333;
+	color: white;
+	padding: 20px;
+	text-align: center;
+  font-size: 50px;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -81,6 +120,7 @@ body {
     margin-right: 4px;
   }
 }
+
 </style>
 
 
@@ -111,53 +151,48 @@ body {
   <div class="dropdown-list">
 
       <label class="dropdown-option">
-      <input type="checkbox" name="dropdown-group" value="Selection 1" />
-        Alzheimer’s
+      <input type="checkbox" name="dropdown-group" value="Alzheimers" />
+        Alzheimers
       </label>
 
       <label class="dropdown-option">
-      <input type="checkbox" name="dropdown-group" value="Selection 2" />
+      <input type="checkbox" name="dropdown-group" value="Arthritis" />
         Arthritis
       </label>
 
       <label class="dropdown-option">
-      <input type="checkbox" name="dropdown-group" value="Selection 3" />
+      <input type="checkbox" name="dropdown-group" value="Asperger" />
         Asperger
       </label>
 
       <label class="dropdown-option">
-      <input type="checkbox" name="dropdown-group" value="Selection 4" />
+      <input type="checkbox" name="dropdown-group" value="Blind" />
         Blind
       </label>
 
       <label class="dropdown-option">
-      <input type="checkbox" name="dropdown-group" value="Selection 5" />
+      <input type="checkbox" name="dropdown-group" value="Cancer" />
         Cancer 
       </label>   
       
       <label class="dropdown-option">
-      <input type="checkbox" name="dropdown-group" value="Selection 6" />
+      <input type="checkbox" name="dropdown-group" value="Cerebral palsy" />
         Cerebral palsy 
-      </label>  
+      </label>
 
       <label class="dropdown-option">
-      <input type="checkbox" name="dropdown-group" value="Selection 7" />
-        Deaf
-      </label>  
+      <input type="checkbox" name="dropdown-group" value="Dementia" />
+        Dementia 
+      </label> 
 
       <label class="dropdown-option">
-      <input type="checkbox" name="dropdown-group" value="Selection 8" />
-        Diabetes type 1 / type 2 
-      </label>  
+      <input type="checkbox" name="dropdown-group" value="Diabetes type 2" />
+        Diabetes type 2 
+      </label>   
 
       <label class="dropdown-option">
-      <input type="checkbox" name="dropdown-group" value="Selection 9" />
+      <input type="checkbox" name="dropdown-group" value="Down syndrome" />
         Down syndrome 
-      </label>  
-
-      <label class="dropdown-option">
-      <input type="checkbox" name="dropdown-group" value="Selection 10" />
-        Epilepsy 
       </label>    
   </div>
 
@@ -171,7 +206,7 @@ body {
       this.$label = this.$el.find('.dropdown-label');
       this.$checkAll = this.$el.find('[data-toggle="check-all"]').first();
       this.$inputs = this.$el.find('[type="checkbox"]');
-      
+
       this.onCheckBox();
       
       this.$label.on('click', function(e) {
@@ -191,11 +226,57 @@ body {
 
   CheckboxDropdown.prototype.onCheckBox = function() {
       this.updateStatus();
+      this.$illnesses = {
+        "Alzheimers" : 0,
+        "Arthritis" : 0,
+        "Asperger" : 0,
+        "Blind" : 0,
+        "Cancer" : 0,
+        "Cerebral palsy" : 0,
+        "Dementia" : 0,
+        "Diabetes type 2" : 0,
+        "Down syndrome" : 0,
+      };
+      for (i = 0; i < this.$el.find(':checked').length; i++) {
+        if (Object.keys(this.$illnesses).indexOf(this.$el.find(':checked')[i].value) > -1) {
+          this.$illnesses[this.$el.find(':checked')[i].value] = 1
+        } 
+      }
+      $.post("https://mi-linux.wlv.ac.uk/~2214257/CarePro/api.php", this.$illnesses, function(data, status) {
+        // console.log(data);
+        // put items here to be placed in the browser
+        data = JSON.parse(data);
+        if (data[0] != undefined) { 
+        const div = document.getElementById("items");
+        while (div.firstChild) { 
+          div.removeChild(div.firstChild);
+        }
+        
+        for (let i = 0; i < data.length; i++) {
+          let item = document.createElement('div')
+          let itemName = document.createElement('a');
+          let itemSymptoms = document.createElement('p');
+          let itemDescription = document.createElement('p');
+          itemName.innerHTML = data[i]['Illnesses_Name'];
+          itemName.href = data[i]['Illnesses_Link'];
+          itemSymptoms.innerHTML = data[i]['Illnesses_Symptoms'];
+          itemDescription.innerHTML = data[i]['Illnesses_Description'];
+          item.append(itemName);
+          item.append(itemSymptoms);
+          item.append(itemDescription);;
+          div.append(item);
+          div.append(document.createElement('br'));
+        }
+      }
+    });
   };
+
+  function getKeyByValue(object, value) {
+        return Object.keys(object).find(key => object[key] === value);
+  }
 
   CheckboxDropdown.prototype.updateStatus = function() {
       var checked = this.$el.find(':checked');
-      
       this.areAllChecked = false;
       this.$checkAll.html('Check All');
       
@@ -256,9 +337,511 @@ body {
   })(jQuery);
 
   </script>
+    <div id="items">
+
+    </div>
       <?php
         } else {
-          echo 'hello staff';
+
+          echo '<Header> Staff Time Table !</Header>';
+
+          echo '
+          <br></br>
+          <html>
+            <table class= "center" style="background-color:#f5f5f5" >
+              <tr>
+                <th></th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednsday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+              </tr>
+              <tr>
+                <td>00:00</<td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>00:30</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>01:00</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>01:30</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>02:00</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>02:30</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>03:00</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>03:30</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>04:00</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>04:30</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>05:00</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>05:30</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>06:00</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>06:30</td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>07:00</td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>07:30</td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>08:00</td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>08:30</td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>09:00</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>09:30</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>10:00</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>10:30</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>11:00</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td>Mason -> Dennis</<td>
+                <td>Todd -> Darren</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>11:30</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>12:00</td>
+                <td>Lucy -> Bert</<td>
+                <td>Lucy -> Bert</<td>
+                <td>Lucy -> Frank</<td>
+                <td>Lucy -> Bert</<td>
+                <td>Lucy -> Bert</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>12:30</td>
+                <td>Lucy -> Bert</<td>
+                <td>Lucy -> Bert</<td>
+                <td>Lucy -> Frank</<td>
+                <td>Lucy -> Bert</<td>
+                <td>Lucy -> Bert</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>13:00</td>
+                <td>Lucy -> Bert</<td>
+                <td>Lucy -> Bert</<td>
+                <td>Lucy -> Frank</<td>
+                <td>Lucy -> Bert</<td>
+                <td>Lucy -> Bert</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>13:30</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>14:00</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td></<td>
+                <td>Mason -> Larry</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>14:30</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td></<td>
+                <td>Mason -> Larry</<td>
+                <td></<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>15:00</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td></<td>
+                <td>Mason -> Larry</<td>
+                <td>Mason -> Terry</<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>15:30</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td></<td>
+                <td>Mason -> Larry</<td>
+                <td>Mason -> Terry</<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>16:00</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td></<td>
+                <td>Mason -> Larry</<td>
+                <td>Mason -> Terry</<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>16:30</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td></<td>
+                <td>Mason -> Larry</<td>
+                <td>Mason -> Terry</<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>17:00</td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Frank</<td>
+                <td></<td>
+                <td>Mason -> Larry</<td>
+                <td>Mason -> Terry</<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>17:30</td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Larry</<td>
+                <td>Mason -> Terry</<td>
+                <td></<td>
+              </tr>
+              <tr>
+                <td>18:00</td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Terry</<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>18:30</td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Terry</<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>19:00</td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Terry</<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>19:30</td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Terry</<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>20:00</td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Terry</<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>20:30</td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Terry</<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>21:00</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Terry</<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>21:30</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Terry</<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>22:00</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Terry</<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>22:30</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>23:00</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+              <tr>
+                <td>23:30</td>
+                <td>Todd -> Joe</<td>
+                <td></<td>
+                <td></<td>
+                <td>Mason -> Dennis</<td>
+                <td></<td>
+                <td></<td>
+                <td>Lucy -> Dorris</<td>
+              </tr>
+            </table>
+            <br></br>
+            </html>';
         }
       }
       } else {

@@ -88,4 +88,35 @@ class sql {
         }
     }
 
+    public function getIllness($illnesses) {
+        try {
+            $illnessList = [];
+
+            foreach ($illnesses as $illness=>$illnessResult) {
+                if ($illnessResult == true) {
+                    //$illnessList[] = $illness;
+                    array_push($illnessList, $illness);
+                }
+            }
+            $list = implode('","', $illnessList);
+            $list = str_replace("_", " ", $list);
+            $query = 'SELECT Illnesses_Picture, Illnesses_Name, Illnesses_Description, Illnesses_Symptoms, Illnesses_Link FROM CareProIllnesses WHERE Illnesses_Name in ("' . $list . '");';
+            // return $query;
+            $stmt = $this->conn->query($query);
+            $result = $stmt->fetchAll();
+            return $result;
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function test() {
+        try {
+            $stmt = $this->conn->query('SELECT * FROM CareProIllnesses');
+            $result = $stmt->fetchAll();
+            return $result;
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
 }
