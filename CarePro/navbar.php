@@ -15,9 +15,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.php" style="width:5%"><img src="./Images/favicon.jpg"  width="80%"></img></a>
+    <nav class="navbar navbar-expand-lg" style='background-color: #142714; margin-bottom:15px;'>
+        <div class="container-fluid" style="color: #bfba83;">
+            <a class="navbar-brand" href="index.php" style="width:5%"><img src="./Images/logo2.jpg"  width="100%"></img></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -30,9 +30,9 @@
                          if (isset($_COOKIE['sessionid'])) {
                             $user = $sql->getCookie($_COOKIE['sessionid']);
                             if ($user['Staff']) {
-                                echo '<p class="navbar-text">Staff: ' . $user['Username'] . '</p>';
+                                echo '<p class="navbar-text" style="color: #bfba83">Staff: ' . $user['Username'] . '</p>';
                             } else {
-                                echo '<p class="navbar-text">User: ' . $user['Username'] . '</p>';
+                                echo '<p class="navbar-text" style="color: #bfba83">User: ' . $user['Username'] . '</p>';
                             }
                         }
                          ?>
@@ -40,16 +40,16 @@
                     
 
                     <li class="nav-item dropdown">
-          <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"  style="color: #bfba83;">
             Info
           </button>
-          <ul class="dropdown-menu dropdown-menu-light">
-            <li><a class="dropdown-item" href="AboutUs.php">About Us</a></li>
-            <li><a class="dropdown-item" href="FindUs.php">Find Us</a></li>
-            <li><a class="dropdown-item" href="ContactUs.php">Contact Us</a></li>
+          <ul class="dropdown-menu" style="background-color: #5c7325;">
+            <li><a class="dropdown-item" href="AboutUs.php" style="color: #bfba83">About Us</a></li>
+            <li><a class="dropdown-item" href="FindUs.php" style="color: #bfba83">Find Us</a></li>
+            <li><a class="dropdown-item" href="ContactUs.php" style="color: #bfba83">Contact Us</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="Termsandconditions.php">Terms and Conditions</a></li>
-            <li><a class="dropdown-item" href="PrivacyPolicy.php">Privacy Policy</a></li>
+            <li><a class="dropdown-item" href="Termsandconditions.php" style="color: #bfba83">Terms and Conditions</a></li>
+            <li><a class="dropdown-item" href="PrivacyPolicy.php" style="color: #bfba83">Privacy Policy</a></li>
           </ul>
         </li>
                 </ul>
@@ -61,12 +61,12 @@
                             $cookieSet = $sql->getCookie($_COOKIE['sessionid']);
 
                             if ($cookieSet) {
-                                echo '<a class="navbar-text" href="logout.php">logout</a>';
+                                echo '<a class="navbar-text" href="logout.php" style="color: #bfba83">logout</a>';
                             } else {
-                                echo '<a id="login" class="navbar-text" href="login.php">login</a>';
+                                echo '<a id="login" class="navbar-text" href="login.php" style="color: #bfba83">login</a>';
                             }
                         } else {
-                            echo '<a id="login" class="navbar-text" href="login.php">login</a>';
+                            echo '<a id="login" class="navbar-text" href="login.php" style="color: #bfba83">login</a>';
                         }
                         ?>
                     </li>

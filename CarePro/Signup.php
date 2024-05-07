@@ -124,7 +124,7 @@
                                 <input type="checkbox" id="Termsandconditions" name="Termsandconditions" value="1">
                                 <label for="Termsandconditions"> Agree to the <a href="Termsandconditions.php">terms and conditions</a></label><br>
                                 <p></p> 
-                                <button class="button1">Signup</button>
+                                <button class="button1" style='border-radius: 30px;'>Signup</button>
                             </div>
 
                         </form>

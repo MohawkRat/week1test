@@ -130,6 +130,7 @@ body {
     <title>CarePro</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     
 </head>
@@ -143,9 +144,9 @@ body {
         if ($user) {
           if (!$user['Staff']) {
           ?>
-          <h1>Illnesses</h1>
+          <h1 style="margin-left: 45%">Illnesses</h1>
 
-  <div class="dropdown" data-control="checkbox-dropdown">
+  <div class="dropdown" data-control="checkbox-dropdown" style="margin-left: 30px;">
   <label class="dropdown-label">Select</label>
 
   <div class="dropdown-list">
@@ -261,6 +262,11 @@ body {
           itemName.href = data[i]['Illnesses_Link'];
           itemSymptoms.innerHTML = data[i]['Illnesses_Symptoms'];
           itemDescription.innerHTML = data[i]['Illnesses_Description'];
+
+          itemName.style.marginLeft = "30px";
+          itemName.style.marginTop = "15px";
+          itemSymptoms.style.marginLeft = "30px";
+          itemDescription.style.marginLeft = "30px";
           item.append(itemName);
           item.append(itemSymptoms);
           item.append(itemDescription);;
@@ -845,7 +851,9 @@ body {
         }
       }
       } else {
+        echo "<div style='display: flex; justify-content: center; align-items: center; text-align: center; height:50%'>";
         echo "<p>If you have an account please <a href='login.php'>login</a></p>";
+        echo "</div>";
       }
 
     ?>

@@ -18,7 +18,7 @@
 
     <body>
 
-        <header>
+        <header style="margin-left: 47%">
             Email:
         </header>
         <div class="container">
@@ -32,12 +32,12 @@
             </form>
         </div>
         <br></br>
-        <header>
+        <header style="margin-left: 45%">
             Phone Number:
         </header>
         <p>Our Phone Number is:  11111111111</p>
         <br></br>
-        <header>
+        <header style="margin-left: 48%">
             Post:
         </header>
         <p>Our Post box address is: 191 Walsall Rd, Lichfield WS13 8AQ</p>

@@ -61,7 +61,7 @@ if (isset($_POST['email'])) {
                                 <input type="password" id ="password" name="password">
                                 <p></p>
                             </div>
-                            <button class="button1">Login</button>
+                            <button class="button1" style='border-radius: 30px;'>Login</button>
                         </form>
                         <p name="login"><?php if (isset($response)) {echo $response;} ?></p>
                         <p style='text-align: center;'>If you need an account you can sign up <a href='Signup.php'>here</a></p>
