@@ -135,7 +135,7 @@ body {
     
 </head>
 
-<body>
+<body style="background-color: #f2feea">
 
     <?php
       include_once('navbar.php');
@@ -146,10 +146,10 @@ body {
           ?>
           <h1 style="margin-left: 45%">Illnesses</h1>
 
-  <div class="dropdown" data-control="checkbox-dropdown" style="margin-left: 30px;">
+  <div class="dropdown" data-control="checkbox-dropdown" style="margin-left: 30px; margin-right: 30px; color: #bfba83;">
   <label class="dropdown-label">Select</label>
 
-  <div class="dropdown-list">
+  <div class="dropdown-list" style="background-color: #5c7325">
 
       <label class="dropdown-option">
       <input type="checkbox" name="dropdown-group" value="Alzheimers" />

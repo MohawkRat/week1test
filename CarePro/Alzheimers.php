@@ -10,6 +10,7 @@
         <?php
             include_once('navbar.php');
         ?>
+
         <header>
             <h1>Alzheimers-Questionnaire</h1>
         </header>

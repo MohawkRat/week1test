@@ -43,7 +43,7 @@
           <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"  style="color: #bfba83;">
             Info
           </button>
-          <ul class="dropdown-menu" style="background-color: #5c7325;">
+          <ul class="dropdown-menu" style="background-color: #5c7325; color:#5c7325">
             <li><a class="dropdown-item" href="AboutUs.php" style="color: #bfba83">About Us</a></li>
             <li><a class="dropdown-item" href="FindUs.php" style="color: #bfba83">Find Us</a></li>
             <li><a class="dropdown-item" href="ContactUs.php" style="color: #bfba83">Contact Us</a></li>
